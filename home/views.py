@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 # Create your views here.
 
-@api_view()
+@api_view(['GET','POST','PATCH','PUT','DELETE'])
 def index(request):
     print(request.method)
     students = ["Deepak" , "Rahul" , "Hemlata" , "Girish"]
