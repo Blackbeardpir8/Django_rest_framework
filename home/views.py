@@ -15,3 +15,11 @@ def index(request):
 
     }
     return Response(data)
+
+
+@api_view(['POST'])
+def create_record(request):
+    return Response ({
+        "status" : True,
+        "message" : "record created",
+    })
