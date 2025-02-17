@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from home.models import Student
 # Create your views here.
 
 @api_view(['GET','POST','PATCH','PUT','DELETE'])
@@ -19,7 +20,8 @@ def index(request):
 
 @api_view(['POST'])
 def create_record(request):
-    print(request.data)
+    data = request.data
+    Student.objects.create(**data)
     return Response ({
         "status" : True,
         "message" : "record created",
