@@ -26,3 +26,21 @@ def create_record(request):
         "status" : True,
         "message" : "record created",
     })
+
+@api_view(['GET'])
+def get_record(request):
+    students = [
+        {
+            "id": student.id,
+            "name": student.name,
+            "dob": student.dob,
+            "email": student.email,
+            "phone": student.phone,
+        }
+        for student in Student.objects.all()
+    ]
+    return Response ({
+        "status" : True,
+        "message" : "record created",
+        "data" : students
+    })
