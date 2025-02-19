@@ -5,4 +5,4 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model =  Student
-        exclude = ['email' , 'phone']
+        fields = '__all__'

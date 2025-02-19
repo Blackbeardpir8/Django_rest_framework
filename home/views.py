@@ -30,12 +30,30 @@ def create_record(request):
 
 @api_view(['GET'])
 def get_record(request):
+    student_id = request.GET.get('id')  
+    
+    if student_id:  
+        try:
+            student = Student.objects.get(id=student_id) 
+            serializer = StudentSerializer(student)
+            return Response({
+                "status": True,
+                "message": "Record fetched",
+                "data": serializer.data
+            })
+        except Student.DoesNotExist:
+            return Response({
+                "status": False,
+                "message": "No record found for the given ID",
+                "data": {}
+            }, status=404)
+
     queryset = Student.objects.all()
-    serializer = StudentSerializer(queryset, many = True)
-    return Response ({
-        "status" : True,
-        "message" : "record fetched",
-        "data" : serializer.data
+    serializer = StudentSerializer(queryset, many=True)
+    return Response({
+        "status": True,
+        "message": "All records fetched",
+        "data": serializer.data
     })
 
 @api_view(['DELETE'])
