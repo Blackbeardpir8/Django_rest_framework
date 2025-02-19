@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from home.models import Student
+from home.serializers import StudentSerializer
 # Create your views here.
 
 @api_view(['GET','POST','PATCH','PUT','DELETE'])
@@ -29,20 +30,12 @@ def create_record(request):
 
 @api_view(['GET'])
 def get_record(request):
-    students = [
-        {
-            "id": student.id,
-            "name": student.name,
-            "dob": student.dob,
-            "email": student.email,
-            "phone": student.phone,
-        }
-        for student in Student.objects.all()
-    ]
+    queryset = Student.objects.all()
+    serializer = StudentSerializer(queryset, many = True)
     return Response ({
         "status" : True,
-        "message" : "record created",
-        "data" : students
+        "message" : "record fetched",
+        "data" : serializer.data
     })
 
 @api_view(['DELETE'])
