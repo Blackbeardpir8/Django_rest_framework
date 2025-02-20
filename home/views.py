@@ -22,10 +22,18 @@ def index(request):
 @api_view(['POST'])
 def create_record(request):
     data = request.data
-    Student.objects.create(**data)
-    return Response ({
+    serializer = StudentSerializer(data = data)
+    if not serializer.is_valid():
+        return Response ({
+            "status" : False,
+            "message" : "record not created",
+            "errors" : serializer.errors
+        })
+    serializer.save()
+    return Response({
         "status" : True,
         "message" : "record created",
+        "data" : serializer.data
     })
 
 @api_view(['GET'])
@@ -72,3 +80,29 @@ def delete_record(request,id):
             "message" : "invalid id",
             "data" : {}
         })
+
+
+@api_view(['PATCH'])
+def update_record(request):
+    data = request.data
+    if data.get('id') is None:
+        return Response({
+            "status" : False,
+            "message" : "record not created",
+            "errors" : "id is required"
+        })
+
+    student_obj = Student.objects.get(id = data.get('id'))
+    serializer = StudentSerializer(student_obj,data = data, partial = True)
+    if not serializer.is_valid():
+        return Response ({
+            "status" : False,
+            "message" : "record not updated",
+            "errors" : serializer.errors
+        })
+    serializer.save()
+    return Response({
+        "status" : True,
+        "message" : "record updated",
+        "data" : serializer.data
+    })
