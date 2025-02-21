@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from home.models import Student
-from home.serializers import StudentSerializer
+from home.serializers import StudentSerializer,BookSerializer
 # Create your views here.
 
 @api_view(['GET','POST','PATCH','PUT','DELETE'])
@@ -104,5 +104,40 @@ def update_record(request):
     return Response({
         "status" : True,
         "message" : "record updated",
+        "data" : serializer.data
+    })
+
+# Book Serializerand views
+@api_view(['POST'])
+def create_book(request):
+    data = request.data
+    serializer = BookSerializer(data = data)
+    if not serializer.is_valid():
+        return Response ({
+            "status" : False,
+            "message" : "record not created",
+            "errors" : serializer.errors
+        })
+    print(serializer.validated_data)
+    return Response({
+        "status": True,
+        "message": "Book created successfully",
+        "data": serializer.data
+    }, status=201)
+    
+@api_view(['POST'])
+def create_record(request):
+    data = request.data
+    serializer = BookSerializer(data = data)
+    if not serializer.is_valid():
+        return Response ({
+            "status" : False,
+            "message" : "record not created",
+            "errors" : serializer.errors
+        })
+    serializer.save()
+    return Response({
+        "status" : True,
+        "message" : "record created",
         "data" : serializer.data
     })
