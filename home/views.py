@@ -1,9 +1,30 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from home.models import Student
+from home.models import Student,Book
 from home.serializers import StudentSerializer,BookSerializer
+from rest_framework.views import APIView
 # Create your views here.
+
+
+class StudentAPI(APIView):
+    def get(self, request):
+        return Response({
+            "status" : True,
+            "message" : "This is a get API"
+    })
+
+    def post(self, request):
+        return Response({
+            "status" : True,
+            "message" : "This is a post API"
+    })
+
+    def patch(self, request):
+        return Response({
+            "status" : True,
+            "message" : "This is a aptch API"
+    })
 
 @api_view(['GET','POST','PATCH','PUT','DELETE'])
 def index(request):
@@ -127,17 +148,31 @@ def create_book(request):
     
 @api_view(['POST'])
 def create_record(request):
-    data = request.data
-    serializer = BookSerializer(data = data)
+    serializer = BookSerializer(data=request.data)
+
     if not serializer.is_valid():
-        return Response ({
-            "status" : False,
-            "message" : "record not created",
-            "errors" : serializer.errors
-        })
-    serializer.save()
+        print(serializer.errors)  # Debugging step
+        return Response({
+            "status": False,
+            "message": "Validation failed",
+            "errors": serializer.errors,
+        }, status=status.HTTP_400_BAD_REQUEST)
+    
+    book = serializer.save()  # Ensure this is being called
+    return Response({
+        "status": True,
+        "message": "Record created successfully",
+        "data": serializer.data,
+    }, status=status.HTTP_201_CREATED)
+
+
+
+@api_view(['GET'])
+def get_books(request):
+    queryset = Book.objects.all()
+    serialier = BookSerializer(queryset, many = True)
     return Response({
         "status" : True,
-        "message" : "record created",
-        "data" : serializer.data
+        "message" : "record fetched",
+        "data" : serialier.data
     })

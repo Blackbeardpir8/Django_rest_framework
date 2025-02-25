@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Student
+from home.models import Student,Book
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -9,5 +9,9 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class BookSerializer(serializers.Serializer):
     book_title = serializers.CharField(max_length=100)
-    authoer = serializers.CharField(max_length=100)
-    price = serializers.FloatField( )
+    author = serializers.CharField(max_length=100)
+    price = serializers.FloatField()
+
+    def create(self, validated_data):
+        book = Book.objects.create(**validated_data)
+        return book

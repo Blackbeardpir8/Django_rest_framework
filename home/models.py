@@ -9,5 +9,5 @@ class Student(models.Model):
     
 class Book(models.Model):
     book_title = models.CharField(max_length=100)
-    authoer = models.CharField(max_length=100)
+    author = models.CharField(max_length=100)
     price = models.FloatField( )
