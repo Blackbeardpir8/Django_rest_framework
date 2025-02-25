@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/update_record/',update_record,),
     
     path('api/v2/student/',StudentAPI.as_view()),
+    path('api/v3/student/',StudentModelListView.as_view()),
 
     path('api/create_book/',create_book),
     path('api/get_books/',get_books),

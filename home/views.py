@@ -4,8 +4,19 @@ from rest_framework.response import Response
 from home.models import Student,Book
 from home.serializers import StudentSerializer,BookSerializer
 from rest_framework.views import APIView
+from rest_framework.mixins import ListModelMixin,CreateModelMixin
+from rest_framework.generics import GenericAPIView
 # Create your views here.
 
+class StudentModelListView(ListModelMixin,CreateModelMixin,GenericAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+    def get(self, request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+
+    def post(self, request,*args,**kwargs):
+        return self.create(request,*args,**kwargs)
 
 class StudentAPI(APIView):
     def get(self, request):
