@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from home.models import Student,Book
+from home.models import Student,Book,Product
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -15,3 +15,8 @@ class BookSerializer(serializers.Serializer):
     def create(self, validated_data):
         book = Book.objects.create(**validated_data)
         return book
+    
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =  Product
+        fields = '__all__'

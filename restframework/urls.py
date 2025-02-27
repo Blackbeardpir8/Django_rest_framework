@@ -32,4 +32,7 @@ urlpatterns = [
     path('api/create_book/',create_book),
     path('api/get_books/',get_books),
     path('admin/', admin.site.urls),
+
+
+    path('api/product/',ProductListCreate.as_view()),
 ]

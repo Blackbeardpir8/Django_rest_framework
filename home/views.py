@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from home.models import Student,Book
-from home.serializers import StudentSerializer,BookSerializer
+from home.models import Student,Book,Product
+from home.serializers import StudentSerializer,BookSerializer,ProductSerializer
 from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin
 from rest_framework.generics import GenericAPIView
+from rest_framework import generics
 # Create your views here.
 
 class StudentModelListView(ListModelMixin,CreateModelMixin,GenericAPIView):
@@ -187,3 +188,8 @@ def get_books(request):
         "message" : "record fetched",
         "data" : serialier.data
     })
+
+
+class ProductListCreate(generics.ListCreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

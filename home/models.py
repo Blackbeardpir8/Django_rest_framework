@@ -11,3 +11,8 @@ class Book(models.Model):
     book_title = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     price = models.FloatField( )
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.FloatField()
