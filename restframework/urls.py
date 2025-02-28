@@ -39,6 +39,9 @@ urlpatterns = [
 
 
     path('api/product/',ProductListCreate.as_view()),
+
+    path('api/register/',RegisterAPI.as_view()),
+
 ]
 
 urlpatterns += router.urls

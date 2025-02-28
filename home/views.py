@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from home.models import Student,Book,Product
-from home.serializers import StudentSerializer,BookSerializer,ProductSerializer
+from home.serializers import StudentSerializer,BookSerializer,ProductSerializer,RegisterSerializer
 from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin
 from rest_framework.generics import GenericAPIView
@@ -206,4 +206,21 @@ class ProductViewSet(viewsets.ModelViewSet):
             "status" : True,
             "message" : "record fetched",
             "data" : {}
+        })
+    
+
+class RegisterAPI(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "status": True, 
+                "message": "User registered successfully",
+                "data": {}
+                })
+        return Response({
+            "status": False,
+            "message": "Invalid data",
+            "data": serializer.errors
         })
