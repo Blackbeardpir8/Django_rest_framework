@@ -8,6 +8,7 @@ from rest_framework.mixins import ListModelMixin,CreateModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework import generics
 from rest_framework import viewsets 
+from rest_framework.decorators import action
 # Create your views here.
 
 class StudentModelListView(ListModelMixin,CreateModelMixin,GenericAPIView):
@@ -198,4 +199,11 @@ class ProductListCreate(generics.ListCreateAPIView):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
+
+    @action(detail=False,methods=['POST'])
+    def export_product(self,request):
+        return Response({
+            "status" : True,
+            "message" : "record fetched",
+            "data" : {}
+        })
