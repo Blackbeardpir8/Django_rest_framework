@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin
 from rest_framework.generics import GenericAPIView
 from rest_framework import generics
+from rest_framework import viewsets 
 # Create your views here.
 
 class StudentModelListView(ListModelMixin,CreateModelMixin,GenericAPIView):
@@ -193,3 +194,8 @@ def get_books(request):
 class ProductListCreate(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    

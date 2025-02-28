@@ -17,6 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from home.views import *
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'api/v2/product', ProductViewSet, basename='products')
 
 
 urlpatterns = [
@@ -36,3 +40,5 @@ urlpatterns = [
 
     path('api/product/',ProductListCreate.as_view()),
 ]
+
+urlpatterns += router.urls
