@@ -41,7 +41,7 @@ urlpatterns = [
     path('api/product/',ProductListCreate.as_view()),
 
     path('api/register/',RegisterAPI.as_view()),
-    path('api/login/',LoginAPI.as_view())
+    path('api/login/',LoginAPI.as_view()),
 ]
 
 urlpatterns += router.urls

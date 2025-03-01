@@ -12,6 +12,8 @@ from rest_framework.decorators import action
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class StudentModelListView(ListModelMixin,CreateModelMixin,GenericAPIView):
@@ -198,6 +200,7 @@ def get_books(request):
 class ProductListCreate(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
@@ -247,7 +250,7 @@ class LoginAPI(APIView):
             
             token,created = Token.objects.get_or_create(user = user)
             return Response({
-                    "status": False,
+                    "status": True,
                     "message": "user token",
                     "data" : {
                         "token":token.key
